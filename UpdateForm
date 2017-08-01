@@ -1,0 +1,26 @@
+function updateForm() {
+  
+// Update the Cable ID in question 1
+var items = FormApp.getActiveForm().getItems();
+var ssID = FormApp.getActiveForm().getDestinationId()
+var ss = SpreadsheetApp.openById(ssID);
+var sheet = ss.getSheetByName("Cable Details");
+var cables = sheet.getMaxRows()
+
+// get the values in the second column except header row 1
+var cableValues = sheet.getRange(2, 16, cables - 1).getValues();
+
+var cableNames = [];
+
+// convert 2D to 1D array and ignore empty cells
+for(var i = 0; i < cableValues.length; i++) {  
+  if(cableValues[i][0] != "") {
+    cableNames[i] = cableValues[i][0];
+  }
+}
+
+  // populate the list
+var formItem = items[0].asListItem();
+var response = formItem.setChoiceValues(cableNames)
+
+}
